@@ -34,7 +34,8 @@ const UsuarioSchema = Schema({
 // Re escritura del metodo toJSON de mongoose que es el que utiliza para pintar en formato json
 // de esta forma evitamos el mostrar la contraseña y datos que no necesitemos enseñar
 UsuarioSchema.methods.toJSON = function() {
-    const { __v, password, ...usuario } = this.toObject();
+    const { __v, password, _id, ...usuario } = this.toObject();
+    usuario.uid = _id;
     return usuario;
 }
 

@@ -17,8 +17,9 @@ const usuariosGet = async (req = request, res = response) => {
     // Desestructuracion de arreglo indicando que en la posicion 0 sera el total
     // Y en la posicion 1 se encontrara todos los demas usuarios retornados por la consulta
     const [total, usuarios] = await Promise.all([
-        Usuario.find({ estado: true}).skip(Number(desde)).limit(Number(limite)),
-        Usuario.countDocuments({ estado: true })
+        Usuario.countDocuments({ estado: true }),
+        Usuario.find({ estado: true}).skip(Number(desde)).limit(Number(limite))
+        
     ]);
 
     res.json({
@@ -78,8 +79,10 @@ const usuariosDelete = async (req, res = response) => {
 
     const { id } = req.params;
     const usuario = await Usuario.findByIdAndUpdate(id, {estado: false});
+    const usuarioAutenticado = req.usuario;
     res.json({
-        usuario
+        usuario,
+        usuarioAutenticado
     });
 }
 
